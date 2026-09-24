@@ -142,21 +142,8 @@ public class ZplImageDecoder
             }
         }
 
-        // 4. Engrossar a imagem (efeito Negrito) e codificar para PNG
-        using var finalBitmap = new SKBitmap(width, height, SKColorType.Bgra8888, SKAlphaType.Opaque);
-        using (var canvas = new SKCanvas(finalBitmap))
-        {
-            canvas.Clear(SKColors.White);
-            using var paint = new SKPaint();
-            // Desenha a original
-            canvas.DrawBitmap(bitmap, 0, 0, paint);
-            // Engrossa 1 pixel para os lados (negrito/darkness++)
-            canvas.DrawBitmap(bitmap, 1, 0, paint);
-            canvas.DrawBitmap(bitmap, 0, 1, paint);
-            canvas.DrawBitmap(bitmap, 1, 1, paint);
-        }
-
-        using var image = SKImage.FromBitmap(finalBitmap);
+        // 4. Codificar para PNG diretamente sem engrossar, para preservar legibilidade de textos pequenos
+        using var image = SKImage.FromBitmap(bitmap);
         using var data = image.Encode(SKEncodedImageFormat.Png, 100);
         return data.ToArray();
     }
