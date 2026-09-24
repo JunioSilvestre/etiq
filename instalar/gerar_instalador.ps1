@@ -11,12 +11,12 @@ Write-Host "1. Compilando o projeto (Self-Contained / win-x64)..." -ForegroundCo
 $ProjPath = Join-Path $PSScriptRoot "..\src\LabelPrinter.Worker\LabelPrinter.Worker.csproj"
 dotnet publish $ProjPath -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o $OutDir
 
-Write-Host "2. Adicionando GhostScript ao pacote..." -ForegroundColor Yellow
-$GSInstaller = Join-Path $PSScriptRoot "gs10031w64.exe"
-if (Test-Path $GSInstaller) {
-    Copy-Item $GSInstaller -Destination $OutDir -Force
+Write-Host "2. Adicionando SumatraPDF ao pacote..." -ForegroundColor Yellow
+$SumatraExe = Join-Path $PSScriptRoot "..\publish\SumatraPDF.exe"
+if (Test-Path $SumatraExe) {
+    Copy-Item $SumatraExe -Destination $OutDir -Force
 } else {
-    Write-Warning "gs10031w64.exe nao encontrado na pasta instalar!"
+    Write-Warning "SumatraPDF.exe nao encontrado na pasta publish!"
 }
 
 Write-Host "3. Copiando script de instalacao..." -ForegroundColor Yellow
@@ -28,13 +28,6 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     exit
 }
 `$InstallDir = "C:\LabelPrinter"
-
-Write-Host "Instalando dependencias (GhostScript)..." -ForegroundColor Yellow
-`$gsInstaller = Get-ChildItem -Path `$PSScriptRoot -Filter "gs*w64.exe" | Select-Object -First 1
-if (`$gsInstaller) {
-    Start-Process -FilePath `$gsInstaller.FullName -ArgumentList "/S" -Wait -NoNewWindow
-    Write-Host "GhostScript instalado." -ForegroundColor Green
-}
 
 Write-Host "Copiando arquivos para `$InstallDir..." -ForegroundColor Yellow
 if (Test-Path `$InstallDir) {
@@ -67,3 +60,4 @@ Compress-Archive -Path "$OutDir\*" -DestinationPath $ZipPath
 
 Remove-Item $OutDir -Recurse -Force
 Write-Host "Pacote gerado com sucesso em: $ZipPath" -ForegroundColor Green
+
