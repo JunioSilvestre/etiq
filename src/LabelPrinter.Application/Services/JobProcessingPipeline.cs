@@ -125,6 +125,35 @@ public class JobProcessingPipeline : IJobProcessingPipeline
                 return ProcessingResult.PermanentFailure($"Formato não suportado: {format}");
             }
 
+            // === BYPASS: Se for PDF, pula direto para a impressão ===
+            if (labelFilePath.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogInformation("[Job {JobId}] PDF direto detectado. Pulando parser.", jobId);
+                
+                var pdfDir = BuildPdfPath(job);
+                Directory.CreateDirectory(pdfDir);
+                var finalPdfPath = Path.Combine(pdfDir, "label.pdf");
+                
+                File.Copy(labelFilePath, finalPdfPath, overwrite: true);
+                
+                job.PdfPath = finalPdfPath;
+                job.IsRawData = false;
+                job.Marketplace = Marketplace.Unknown;
+                job.Status = JobStatus.PdfGenerated;
+                await _jobRepository.UpdateAsync(job, cancellationToken);
+                
+                await _auditRepository.AddEventAsync(new AuditEvent
+                {
+                    JobId = jobId,
+                    EventType = AuditEventType.PdfGenerated,
+                    Description = $"PDF direto copiado: {finalPdfPath}",
+                    Metadata = JsonConvert.SerializeObject(new { path = finalPdfPath, directPdf = true })
+                }, cancellationToken);
+                
+                var dummyDocument = new LabelDocument { JobId = jobId, Marketplace = Marketplace.Unknown, IsRawZpl = false };
+                return ProcessingResult.Succeeded(dummyDocument, finalPdfPath);
+            }
+
             // === ETAPA 3: Detectar encoding ===
             var encoding = _encodingDetector.DetectEncoding(labelFilePath);
             job.DetectedEncoding = encoding.WebName;

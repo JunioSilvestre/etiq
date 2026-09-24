@@ -29,7 +29,12 @@ try
 {
     Log.Information("Iniciando LabelPrinter...");
 
-    var builder = Host.CreateApplicationBuilder(args);
+    var builderOptions = new HostApplicationBuilderSettings
+    {
+        Args = args,
+        ContentRootPath = AppContext.BaseDirectory
+    };
+    var builder = Host.CreateApplicationBuilder(builderOptions);
 
     // ============================================================
     // Windows Service support
@@ -161,16 +166,37 @@ return 0;
 static string ResolveDatabasePath(IConfiguration configuration)
 {
     var configuredPath = configuration.GetSection("Paths:Database").Value;
+    var baseDir = AppContext.BaseDirectory;
 
+    string finalPath;
     if (!string.IsNullOrWhiteSpace(configuredPath))
     {
         var resolved = Environment.ExpandEnvironmentVariables(configuredPath);
-        var dir = Path.GetDirectoryName(resolved);
-        if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
-        return resolved;
+        // Se for um caminho relativo, combina com o BaseDirectory
+        if (!Path.IsPathRooted(resolved))
+        {
+            resolved = Path.Combine(baseDir, resolved);
+        }
+        
+        // Se não tiver extensão, assume que é um diretório
+        if (string.IsNullOrEmpty(Path.GetExtension(resolved)))
+        {
+            Directory.CreateDirectory(resolved);
+            finalPath = Path.Combine(resolved, "labelprinter.db");
+        }
+        else
+        {
+            var dir = Path.GetDirectoryName(resolved);
+            if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+            finalPath = resolved;
+        }
+    }
+    else
+    {
+        var defaultDir = Path.Combine(baseDir, "Data");
+        Directory.CreateDirectory(defaultDir);
+        finalPath = Path.Combine(defaultDir, "labelprinter.db");
     }
 
-    var defaultDir = Path.Combine(AppContext.BaseDirectory, "Data");
-    Directory.CreateDirectory(defaultDir);
-    return Path.Combine(defaultDir, "labelprinter.db");
+    return finalPath;
 }
