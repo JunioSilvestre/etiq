@@ -138,8 +138,8 @@ public class JobService : IJobService
 
     public async Task<bool> IsDuplicateAsync(string fileHash, CancellationToken cancellationToken = default)
     {
-        var existing = await _jobRepository.GetByHashAsync(fileHash, cancellationToken);
-        return existing != null;
+        // Sempre retorna falso para permitir reimpressão do mesmo arquivo
+        return false;
     }
 
     public async Task UpdateStatusAsync(

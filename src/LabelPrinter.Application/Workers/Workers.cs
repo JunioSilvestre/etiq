@@ -110,7 +110,16 @@ public class FileWatcherWorker : BackgroundService
             {
                 if (!stoppingToken.IsCancellationRequested)
                 {
-                    _logger.LogDebug("FileSystemWatcher: arquivo detectado: {File}", args.FullPath);
+                    _logger.LogDebug("FileSystemWatcher: arquivo criado: {File}", args.FullPath);
+                    await _detectedFilesChannel.Writer.WriteAsync(args.FullPath, stoppingToken);
+                }
+            };
+
+            watcher.Changed += async (_, args) =>
+            {
+                if (!stoppingToken.IsCancellationRequested)
+                {
+                    _logger.LogDebug("FileSystemWatcher: arquivo alterado: {File}", args.FullPath);
                     await _detectedFilesChannel.Writer.WriteAsync(args.FullPath, stoppingToken);
                 }
             };
@@ -131,7 +140,7 @@ public class FileWatcherWorker : BackgroundService
 
     private async Task RunPollingFallbackAsync(List<string> paths, CancellationToken stoppingToken)
     {
-        var knownFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var knownFiles = new Dictionary<string, DateTime>(StringComparer.OrdinalIgnoreCase);
         var intervalMs = _processing.FolderPollingIntervalSeconds * 1000;
 
         while (!stoppingToken.IsCancellationRequested)
@@ -149,10 +158,11 @@ public class FileWatcherWorker : BackgroundService
                         var files = Directory.GetFiles(path, $"*{ext}");
                         foreach (var file in files)
                         {
-                            if (!knownFiles.Contains(file))
+                            var lastWrite = File.GetLastWriteTimeUtc(file);
+                            if (!knownFiles.TryGetValue(file, out var previousWrite) || lastWrite > previousWrite)
                             {
-                                knownFiles.Add(file);
-                                _logger.LogDebug("Polling: novo arquivo detectado: {File}", file);
+                                knownFiles[file] = lastWrite;
+                                _logger.LogDebug("Polling: novo arquivo ou alteração detectada: {File}", file);
                                 await _detectedFilesChannel.Writer.WriteAsync(file, stoppingToken);
                             }
                         }
@@ -160,7 +170,11 @@ public class FileWatcherWorker : BackgroundService
                 }
 
                 // Limpar arquivos que não existem mais
-                knownFiles.RemoveWhere(f => !File.Exists(f));
+                var missingFiles = knownFiles.Keys.Where(f => !File.Exists(f)).ToList();
+                foreach (var missing in missingFiles)
+                {
+                    knownFiles.Remove(missing);
+                }
             }
             catch (OperationCanceledException)
             {
