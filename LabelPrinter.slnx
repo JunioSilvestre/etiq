@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LabelPrinter.Application/LabelPrinter.Application.csproj" />
+    <Project Path="src/LabelPrinter.Core/LabelPrinter.Core.csproj" />
+    <Project Path="src/LabelPrinter.Diagnostics/LabelPrinter.Diagnostics.csproj" />
+    <Project Path="src/LabelPrinter.Documents/LabelPrinter.Documents.csproj" />
+    <Project Path="src/LabelPrinter.Infrastructure/LabelPrinter.Infrastructure.csproj" />
+    <Project Path="src/LabelPrinter.Labels/LabelPrinter.Labels.csproj" />
+    <Project Path="src/LabelPrinter.Persistence/LabelPrinter.Persistence.csproj" />
+    <Project Path="src/LabelPrinter.Printing/LabelPrinter.Printing.csproj" />
+    <Project Path="src/LabelPrinter.Worker/LabelPrinter.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LabelPrinter.IntegrationTests/LabelPrinter.IntegrationTests.csproj" />
+    <Project Path="tests/LabelPrinter.PrintingTests/LabelPrinter.PrintingTests.csproj" />
+    <Project Path="tests/LabelPrinter.UnitTests/LabelPrinter.UnitTests.csproj" />
+  </Folder>
+</Solution>

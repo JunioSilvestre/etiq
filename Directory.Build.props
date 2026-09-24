@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RootNamespace>LabelPrinter</RootNamespace>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0</Version>
+    <Authors>LabelPrinter Team</Authors>
+    <Company>LabelPrinter</Company>
+    <Product>LabelPrinter - Sistema de Impressão de Etiquetas Térmicas</Product>
+    <Copyright>Copyright © 2026 LabelPrinter</Copyright>
+  </PropertyGroup>
+</Project>

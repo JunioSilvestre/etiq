@@ -1,0 +1,91 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <!-- Microsoft Extensions -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.0" />
+  </ItemGroup>
+
+  <!-- Entity Framework Core + SQLite -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0" />
+  </ItemGroup>
+
+  <!-- Archive handling -->
+  <ItemGroup>
+    <PackageVersion Include="SharpCompress" Version="0.50.4" />
+  </ItemGroup>
+
+  <!-- PDF Generation -->
+  <ItemGroup>
+    <PackageVersion Include="QuestPDF" Version="2025.1.0" />
+  </ItemGroup>
+
+  <!-- Barcodes and QR Codes -->
+  <ItemGroup>
+    <PackageVersion Include="ZXing.Net" Version="0.16.9" />
+    <PackageVersion Include="ZXing.Net.Bindings.SkiaSharp" Version="0.16.9" />
+    <PackageVersion Include="SkiaSharp" Version="3.116.1" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Win32" Version="3.116.1" />
+  </ItemGroup>
+
+  <!-- Encoding Detection -->
+  <ItemGroup>
+    <PackageVersion Include="UTF.Unknown" Version="2.7.0" />
+  </ItemGroup>
+
+  <!-- Logging -->
+  <ItemGroup>
+    <PackageVersion Include="Serilog" Version="4.2.0" />
+    <PackageVersion Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+    <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.4" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+  </ItemGroup>
+
+  <!-- Retry / Resilience -->
+  <ItemGroup>
+    <PackageVersion Include="Polly" Version="8.5.2" />
+    <PackageVersion Include="Polly.Extensions" Version="8.5.2" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.6.0" />
+  </ItemGroup>
+
+  <!-- Windows WMI -->
+  <ItemGroup>
+    <PackageVersion Include="System.Management" Version="9.0.0" />
+  </ItemGroup>
+
+  <!-- Utilities -->
+  <ItemGroup>
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <!-- Testing -->
+  <ItemGroup>
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="FluentAssertions" Version="7.2.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LabelPrinter.Core\LabelPrinter.Core.csproj" />
+    <ProjectReference Include="..\..\src\LabelPrinter.Application\LabelPrinter.Application.csproj" />
+    <ProjectReference Include="..\..\src\LabelPrinter.Documents\LabelPrinter.Documents.csproj" />
+    <ProjectReference Include="..\..\src\LabelPrinter.Labels\LabelPrinter.Labels.csproj" />
+    <ProjectReference Include="..\..\src\LabelPrinter.Persistence\LabelPrinter.Persistence.csproj" />
+    <ProjectReference Include="..\..\src\LabelPrinter.Infrastructure\LabelPrinter.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\LabelPrinter.Printing\LabelPrinter.Printing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+  </ItemGroup>
+</Project>
